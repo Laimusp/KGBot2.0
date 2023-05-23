@@ -6,6 +6,7 @@ from pyrogram import idle
 from pyrogram.enums.parse_mode import ParseMode
 
 from utils.client import KGBot
+from utils.dispatcher import CustomDispatcher
 from utils import log_setting
 
 

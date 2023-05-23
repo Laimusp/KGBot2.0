@@ -40,7 +40,7 @@ async def delete_modules_handler(app: KGBot, message: types.Message):
 
 
 @KGBot.on_message(filters.command('fdelmod', '.'))
-async def full_delete_modules_handler(app: KGBot, message: types.Message):
+async def full_delete_modules_handler(_, message: types.Message):
     """Удаление модуля (файла)"""
     await message.edit_text('<b><i>Начинается удаление...</i></b>')
     if len(message.command) == 1:

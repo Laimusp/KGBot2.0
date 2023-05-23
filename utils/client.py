@@ -1,14 +1,13 @@
 import importlib
 import logging
 import os
-import asyncio
 
 from pyrogram import Client
 from pyrogram.errors import BadRequest, SessionPasswordNeeded
-from pyrogram.handlers import MessageHandler
-from pyrogram.utils import ainput
 from pyrogram.types import User, TermsOfService
+from pyrogram.utils import ainput
 
+from .dispatcher import CustomDispatcher
 
 log = logging.getLogger(__name__)
 
@@ -16,6 +15,7 @@ log = logging.getLogger(__name__)
 class KGBot(Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.dispatcher = CustomDispatcher(self)
         print('KGBot2.0 успешно запущен')
 
     async def authorize(self) -> User:
