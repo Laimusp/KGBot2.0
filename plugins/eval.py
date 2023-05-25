@@ -1,3 +1,4 @@
+import asyncio
 import re
 import sys
 from html import escape
@@ -24,6 +25,18 @@ class CustomStdout:
 
     def write(self, message: str):
         self.output += message
+
+
+class CustomInput:
+    def __init__(self, message_text: str = '', client: KGBot = None, message: types.Message = None):
+        self.text = message_text
+        self.client = client
+        self.message = message
+
+    def __call__(self, *args, **kwargs):
+        wait_message = self.client.loop.create_task(self.message.reply('Текст'))
+        print(dir(wait_message))
+        return '123'
 
 
 code_model = '<b>Код:</b>\n<pre>{}</pre>\n\n'
@@ -56,7 +69,7 @@ async def eval_handler(app: KGBot, message: types.Message):
     except Exception:
         error_output = str(traceback.format_exc())
 
-    printed_result = sys.stdout.output
+    printed_result = sys.stdout.output.strip()
     if returned_result and printed_result:
         result_output = code_model.format(escape(code_text)) + return_model.format(escape(str(returned_result))) + \
                         print_model.format(escape(printed_result))
@@ -91,5 +104,10 @@ def get_variables(message: types.Message, app: KGBot) -> dict:
         'msg': message,
         'message': message,
         'reply': message.reply_to_message,
-        'app': app
+        'app': app,
+        'input': CustomInput(client=app, message=message)
     }
+
+
+async def input_handler(app: KGBot, message: types.Message):
+    ...

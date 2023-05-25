@@ -50,28 +50,7 @@ class CustomDispatcher(Dispatcher):
                                 if inspect.iscoroutinefunction(handler.callback):
                                     # noinspection PyUnresolvedReferences
                                     logger = logging.getLogger(mod_name := handler.callback.__module__)
-                                    try:
-                                        await handler.callback(self.client, *args)
-                                    except Exception as error:
-                                        chat_id, _ = list(chats.items())[0] if chats else ('me', ...)
-                                        message_info = {
-                                            'chat_id': chat_id,
-                                            'message_id': update.message.id,
-                                            'text': f'<b><i>В модуле <u>{mod_name.split(".")[1]}</u> произошла ошибка!'
-                                                    f'\nЧтобы узнать подробности, напишите <u>.logs 40</u></i></b>'
-                                        }
-
-                                        try:
-                                            await self.client.edit_message_text(**message_info)
-                                        except PeerIdInvalid:  # либо там -100, либо там просто -
-                                            message_info['chat_id'] = message_info['chat_id'] * -1
-                                            try:
-                                                await self.client.edit_message_text(**message_info)
-                                            except ChatIdInvalid:
-                                                message_info['chat_id'] = ('-100' + str(abs(message_info['chat_id'])))
-                                                await self.client.edit_message_text(**message_info)
-
-                                        logger.error(msg=error, exc_info=True)
+                                    await handler.callback(self.client, *args)
                                 else:
                                     await self.loop.run_in_executor(
                                         self.client.executor,
@@ -83,8 +62,26 @@ class CustomDispatcher(Dispatcher):
                                 raise
                             except pyrogram.ContinuePropagation:
                                 continue
-                            except Exception as e:
-                                log.exception(e)
+                            except Exception as error:
+                                chat_id, _ = list(chats.items())[0] if chats else ('me', ...)
+                                message_info = {
+                                    'chat_id': chat_id,
+                                    'message_id': update.message.id,
+                                    'text': f'<b><i>В модуле <u>{mod_name.split(".")[1]}</u> произошла ошибка!'
+                                            f'\nЧтобы узнать подробности, напишите <u>.logs 40</u></i></b>'
+                                }
+
+                                try:
+                                    await self.client.edit_message_text(**message_info)
+                                except PeerIdInvalid:  # либо там -100, либо там просто -
+                                    message_info['chat_id'] = message_info['chat_id'] * -1
+                                    try:
+                                        await self.client.edit_message_text(**message_info)
+                                    except ChatIdInvalid:
+                                        message_info['chat_id'] = ('-100' + str(abs(message_info['chat_id'])))
+                                        await self.client.edit_message_text(**message_info)
+
+                                logger.error(msg=error, exc_info=True)
 
                             break
             except pyrogram.StopPropagation:

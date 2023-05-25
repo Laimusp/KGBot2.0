@@ -1,6 +1,7 @@
 import importlib
 import logging
 import os
+from asyncio import Task
 
 from pyrogram import Client
 from pyrogram.errors import BadRequest, SessionPasswordNeeded
@@ -130,21 +131,25 @@ class KGBot(Client):
         return name + surname if surname else name
 
     async def modules_restart(self):
-        self.dispatcher.handler_worker_tasks.clear()
+        for item in self.dispatcher.handler_worker_tasks:
+            item.cancel()
+
         for module_name in [item[:-3] for item in os.listdir('plugins/') if item.endswith('.py')]:
             module = importlib.import_module(f'plugins.{module_name}')
             handlers = [item for item in module.__dict__.values() if hasattr(item, 'handlers')]
             for handler in handlers:
-                _handler, group = handler.handlers[0]
-                if _handler in self.dispatcher.groups[0]:
-                    self.remove_handler(_handler, group)
+                if handler.handlers:
+                    _handler, group = handler.handlers[0]
+                    if _handler in self.dispatcher.groups[0]:
+                        self.remove_handler(_handler, group)
 
             module = importlib.import_module(f'plugins.{module_name}')
             importlib.reload(module)
             handlers = [item for item in module.__dict__.values() if hasattr(item, 'handlers')]
             for handler in handlers:
-                _handler, group = handler.handlers[0]
-                self.add_handler(_handler, group)
+                if handler.handlers:
+                    _handler, group = handler.handlers[0]
+                    self.add_handler(_handler, group)
 
     async def get_start_message(self):
         return f'Информация об аккаунте: \n' \
