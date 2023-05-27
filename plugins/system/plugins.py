@@ -1,6 +1,5 @@
 import importlib
 import os
-from pprint import pprint
 
 from pyrogram import types, filters
 from utils.client import KGBot

@@ -155,3 +155,6 @@ class KGBot(Client):
         return f'Информация об аккаунте: \n' \
                f'Полное имя: {await self.get_full_name()}\n' \
                f'Айди: {self.me.id}\n\n'
+
+    def check_restart(self):
+        ...
