@@ -4,7 +4,7 @@ from pyrogram import types, filters
 from utils.client import KGBot
 
 
-@KGBot.on_message(filters.command('help', '.'))
+@KGBot.on_message(filters.command('help', KGBot.prefix))
 async def help_handler(app: KGBot, message: types.Message):
     if len(message.command) > 1:  # информация о модуле
         modules_name = message.text.split(maxsplit=1)[1].replace(' ', '_')

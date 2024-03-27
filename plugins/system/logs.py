@@ -4,7 +4,7 @@ from pyrogram import types, filters
 from utils.client import KGBot
 
 
-@KGBot.on_message(filters.me & filters.command('logs', '.'))
+@KGBot.on_message(filters.me & filters.command('logs', KGBot.prefix))
 async def get_logs_handler(_, message: types.Message):
     if len(message.command) == 1:
         return await message.edit_text('<b><i>Вы не указали <u>уровень</u> лога</i></b>')

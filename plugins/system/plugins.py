@@ -5,7 +5,7 @@ from pyrogram import types, filters
 from utils.client import KGBot
 
 
-@KGBot.on_message(filters.command('loadmod', '.'))
+@KGBot.on_message(filters.command('loadmod', KGBot.prefix))
 async def load_modules_handler(app: KGBot, message: types.Message):
     await message.edit_text('<b><i>Начинается загрузка...</i></b>')
     if not (reply := message.reply_to_message):
@@ -18,7 +18,7 @@ async def load_modules_handler(app: KGBot, message: types.Message):
     await app.modules_restart()
 
 
-@KGBot.on_message(filters.command('delmod', '.'))
+@KGBot.on_message(filters.command('delmod', KGBot.prefix))
 async def delete_modules_handler(app: KGBot, message: types.Message):
     """Отключение модуля"""
     await message.edit_text('<b><i>Начинается удаление...</i></b>')
@@ -38,7 +38,7 @@ async def delete_modules_handler(app: KGBot, message: types.Message):
     await message.edit_text(f'<b><i>Модуль <u>{module_name}</u> успешно удален</i></b>')
 
 
-@KGBot.on_message(filters.command('fdelmod', '.'))
+@KGBot.on_message(filters.command('fdelmod', KGBot.prefix))
 async def full_delete_modules_handler(_, message: types.Message):
     """Удаление модуля (файла)"""
     await message.edit_text('<b><i>Начинается удаление...</i></b>')
@@ -53,7 +53,7 @@ async def full_delete_modules_handler(_, message: types.Message):
     await message.edit_text(f'<b><i>Модуль <u>{module_name}</u> полностью удален</i></b>')
 
 
-@KGBot.on_message(filters.command('recovmod', '.'))
+@KGBot.on_message(filters.command('recovmod', KGBot.prefix))
 async def recovery_modules_handler(app: KGBot, message: types.Message):
     """Отключение модуля"""
     await message.edit_text('<b><i>Начинается удаление...</i></b>')

@@ -14,6 +14,8 @@ log = logging.getLogger(__name__)
 
 
 class KGBot(Client):
+    prefix = '.'
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.dispatcher = CustomDispatcher(self)

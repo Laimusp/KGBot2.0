@@ -47,7 +47,7 @@ error_model = '<b>Ошибка:</b>\n<pre>{}</pre>\n\n'
 
 @KGBot.on_edited_message(filters.regex(r'(?<=Код:)(.*)(?=\n(?:Вывод:|Возвращено:|Ошибка:))', re.DOTALL) & filters.me)
 @KGBot.on_edited_message(filters.regex(r'(?<=Код:)(.*)', re.DOTALL) & filters.me)
-@KGBot.on_message(filters.command('e', '.') & filters.me)
+@KGBot.on_message(filters.command('e', KGBot.prefix) & filters.me)
 async def eval_handler(app: KGBot, message: types.Message):
     if message.command:  # отправленное сообщение
         if not (reply := message.reply_to_message) and len(message.command) == 1:
