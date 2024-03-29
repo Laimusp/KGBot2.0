@@ -3,7 +3,7 @@ from utils.client import KGBot
 from utils.utils import user_text
 
 
-@KGBot.on_message(filters.command('prefix', KGBot.prefix))
+@KGBot.on_message(filters.me & filters.command('prefix', KGBot.prefix))
 async def change_prefix_handler(app: KGBot, message: types.Message):
     message_text_split = message.text.split()
     if len(message_text_split) == 1:

@@ -26,17 +26,25 @@ class CustomStdout:
     def write(self, message: str):
         self.output += message
 
+        # TODO сделать, чтобы каждое обновление выводилось в сообщение телеграма
 
-class CustomInput:
-    def __init__(self, message_text: str = '', client: KGBot = None, message: types.Message = None):
-        self.text = message_text
+
+class NewCustomInput:
+    def __init__(self, client: KGBot = None, message: types.Message = None):
         self.client = client
         self.message = message
 
-    def __call__(self, *args, **kwargs):
-        wait_message = self.client.loop.create_task(self.message.reply('Текст'))
-        print(dir(wait_message))
-        return '123'
+    async def __call__(self, message_text: str, *args, **kwargs):
+        new_message = await self.message.reply_text(f'<b><i>Программа ожидает ввода...</i></b>\n\n{message_text}'.strip())
+        while True:
+            message_id = [item async for item in self.client.get_chat_history(self.message.chat.id, limit=1)][0].id
+            message = await self.client.get_messages(self.message.chat.id, message_id)
+            if message.text and message.reply_to_message and message.reply_to_message.id == new_message.id:
+                await new_message.delete()
+                await message.delete()
+                return message.text
+
+            await asyncio.sleep(1)
 
 
 code_model = '<b>Код:</b>\n<pre>{}</pre>\n\n'
@@ -60,6 +68,7 @@ async def eval_handler(app: KGBot, message: types.Message):
     else:  # отредактировано
         code_text = get_code(message.text)
 
+    code_text = code_text.replace('input', 'await input')
     old_stdout = sys.stdout
     sys.stdout = CustomStdout()
     error_output = returned_result = None
@@ -70,6 +79,7 @@ async def eval_handler(app: KGBot, message: types.Message):
         error_output = str(traceback.format_exc())
 
     printed_result = sys.stdout.output.strip()
+    code_text = code_text.replace('await input', 'input')
     if returned_result and printed_result:
         result_output = code_model.format(escape(code_text)) + return_model.format(escape(str(returned_result))) + \
                         print_model.format(escape(printed_result))
@@ -105,9 +115,5 @@ def get_variables(message: types.Message, app: KGBot) -> dict:
         'message': message,
         'reply': message.reply_to_message,
         'app': app,
-        'input': CustomInput(client=app, message=message)
+        'input': NewCustomInput(client=app, message=message)
     }
-
-
-async def input_handler(app: KGBot, message: types.Message):
-    ...
