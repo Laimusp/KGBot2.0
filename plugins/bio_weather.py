@@ -7,7 +7,7 @@ from utils.client import KGBot
 from utils.utils import user_text
 
 CITY = "Москва"
-OPENWEATHER_API_KEY = ""
+OPENWEATHER_API_KEY = "39935407b760db601fe94f7b41d2772c"
 OPENWEATHER_URL = f"https://api.openweathermap.org/data/2.5/weather?q={CITY}&lang=ru&units=metric&appid={OPENWEATHER_API_KEY}"
 
 AUTOEDIT_BIO_ON = False
