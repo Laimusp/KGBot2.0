@@ -1,4 +1,3 @@
-import logging
 import time
 from pyrogram import filters, types
 from utils.client import KGBot

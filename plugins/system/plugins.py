@@ -5,6 +5,18 @@ from pyrogram import types, filters
 from utils.client import KGBot
 
 
+class Help:
+    author = 'Koban'
+    help_commands = ['loadmod', 'delmod', 'fdelmod', 'recovmod']
+    modules_description = 'Модули'
+    commands_description = {
+        'loadmod': 'Загрузка модуля',
+        'delmod': 'Удаление модуля (хендлера)',
+        'fdelmod': 'Удаление модуля (файла)',
+        'recovmod': 'Восстановление модуля (файла)',
+    }
+
+
 @KGBot.on_message(filters.command('loadmod', KGBot.prefix))
 async def load_modules_handler(app: KGBot, message: types.Message):
     await message.edit_text('<b><i>Начинается загрузка...</i></b>')
@@ -55,7 +67,7 @@ async def full_delete_modules_handler(_, message: types.Message):
 
 @KGBot.on_message(filters.command('recovmod', KGBot.prefix))
 async def recovery_modules_handler(app: KGBot, message: types.Message):
-    """Отключение модуля"""
+    """Восстановление модуля (файла)"""
     await message.edit_text('<b><i>Начинается удаление...</i></b>')
     if len(message.command) == 1:
         return await message.edit_text('<b><i>Вы не указали <u>модуль</u></i></b>')

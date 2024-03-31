@@ -14,8 +14,8 @@ class Help:
     help_commands = ['e']
     modules_description = 'Модуль, который выполняет код на языке программирования Python'
     commands_description = {
-        '.e': 'Выполнить код по реплаю',
-        '.e [code]': 'Выполнить код'
+        'e': 'Выполнить код по реплаю',
+        'e [code]': 'Выполнить код'
     }
 
 
@@ -26,15 +26,13 @@ class CustomStdout:
     def write(self, message: str):
         self.output += message
 
-        # TODO сделать, чтобы каждое обновление выводилось в сообщение телеграма
-
 
 class NewCustomInput:
     def __init__(self, client: KGBot = None, message: types.Message = None):
         self.client = client
         self.message = message
 
-    async def __call__(self, message_text: str, *args, **kwargs):
+    async def __call__(self, message_text: str = '', *args, **kwargs):
         new_message = await self.message.reply_text(f'<b><i>Программа ожидает ввода...</i></b>\n\n{message_text}'.strip())
         while True:
             message_id = [item async for item in self.client.get_chat_history(self.message.chat.id, limit=1)][0].id

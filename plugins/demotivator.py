@@ -16,8 +16,9 @@ async def demotivator_handler(_, message: types.Message):
     if not message.reply_to_message or not message.reply_to_message.photo:
         return await message.edit_text(user_text("Вы не указали фотографию"))
 
+    await message.edit_text(user_text("Скачивание фотографии..."))
     photo = await message.reply_to_message.download(file_name="photo.png")
-    await message.edit_text(user_text("В процессе..."))
+    await message.edit_text(user_text("Обработка фотографии..."))
 
     demotivator_photo = get_demotivator_photo(message.text.split(maxsplit=1)[1], photo)
     await message.reply_photo(demotivator_photo)
