@@ -6,10 +6,12 @@ from pyrogram.enums.parse_mode import ParseMode
 
 from utils.client import KGBot
 from utils import log_setting
+from utils.env import Env
 
 
 async def main():
     log_setting.configure_logging()
+    Env.create_env_file_if_not_exists()
 
     api_id = api_hash = None
     if not os.path.exists('my_account.session'):

@@ -10,6 +10,17 @@ from utils.utils import user_text
 alias_info = defaultdict(list)
 
 
+class Help:
+    author = 'Koban'
+    help_commands = ['alias', 'unalias', 'show_alias']
+    modules_description = 'Модуль для создания алиасов (сокращения команд)'
+    commands_description = {
+        'alias [команда] [сокращение]': 'Создание алиаса',
+        'unalias [команда]': 'Удаление алиаса',
+        'show_alias': 'Показать список алиасов'
+    }
+
+
 @KGBot.on_message(filters.me & filters.command("alias", KGBot.prefix))
 async def create_alias_handler(app: KGBot, message: types.Message):
     if len(message.command) < 3:

@@ -11,7 +11,7 @@ class Help:
     }
 
 
-@KGBot.on_message(filters.me & filters.command(Help.help_commands, KGBot.prefix))
+@KGBot.on_message(filters.me & filters.command(['count'], KGBot.prefix))
 async def count_message_handler(app: KGBot, message: types.Message):
     count = await app.get_chat_history_count(message.chat.id)
     await message.edit_text(f'Кол-во сообщений в чате: {count}')

@@ -130,7 +130,7 @@ class KGBot(Client):
     async def get_full_name(self):
         name = self.me.first_name
         surname = self.me.last_name
-        return name + surname if surname else name
+        return name + ' ' + surname if surname else name
 
     async def modules_restart(self):
         for item in self.dispatcher.handler_worker_tasks:
