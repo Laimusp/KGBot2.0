@@ -4,7 +4,6 @@ from utils.client import KGBot
 
 class Help:
     author = 'Koban'
-    help_commands = ['count']
     modules_description = 'Модуль для получения кол-ва сообщений в чате'
     commands_description = {
         'count': 'Узнать кол-во сообщений в чате'

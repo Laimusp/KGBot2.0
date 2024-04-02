@@ -5,7 +5,6 @@ from utils.client import KGBot
 
 class Help:
     author = 'Koban'
-    help_commands = ['ping', 'p']
     modules_description = 'Получить пинг'
     commands_description = {
         'ping (p)': 'Пингуем, пацаны'

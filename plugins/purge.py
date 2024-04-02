@@ -5,7 +5,6 @@ from utils.utils import user_text
 
 class Help:
     author = 'Koban'
-    help_commands = ['purge']
     modules_description = 'Модуль для удаления сообщений по реплаю (от того, которое указали, до нынешнего)'
     commands_description = {
         'purge': 'Удаляет сообщения в чате'

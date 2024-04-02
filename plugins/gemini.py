@@ -12,7 +12,6 @@ from utils.utils import user_text
 
 class Help:
     author = 'Koban'
-    help_commands = ['gemini']
     modules_description = 'Запрос к Gemini Pro. Для использования надо в .env добавить GEMINI_API_KEY и GEMINI_PROXY\n' \
                           'Прокси нужен для того, чтобы использовать Gemini в странах, где это делать нельзя, если бот ' \
                           'размещен на иностранном сервере, то все должно работать'

@@ -7,14 +7,12 @@ from utils.utils import user_text
 
 class Help:  # класс для help'а, имеет 4 поля
     author = 'Koban'  # автор
-    help_commands = ['ex', 'ex2']  # команды, который будут показываться в .help, можно не указывать (будет Неизвестно)
     modules_description = 'Описание модулей'  # описание модулей
     commands_description = {
         'ex': 'Пример использования',  # точное описание каждой команды
         'ex2': 'Пример использования 2'
     }
 
-    # в будущем help_commands будет изменен, чтобы он напрямую получал команды из хендлера, но пока так
     # позже будет добавлена работа с базой данных
 
 
@@ -25,7 +23,7 @@ async def example_handler(app: KGBot, message: types.Message):
     await message.edit_text(user_text(message.from_user.first_name))
 
 
-@KGBot.on_message(filters.me & filters.command(["ex"], KGBot.prefix))
+@KGBot.on_message(filters.me & filters.command(["ex2"], KGBot.prefix))
 async def example2_handler(app: KGBot, message: types.Message):
     # Здесь основная логика еще одного хендлера
     await message.edit_text(user_text(message.from_user.last_name))

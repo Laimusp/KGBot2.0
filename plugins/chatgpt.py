@@ -9,7 +9,6 @@ ANSWER_LAYOUT = '<b>Ответ:</b>\n<pre>{}</pre>\n\n'
 
 class Help:
     author = 'Koban'
-    help_commands = ['gpt']
     modules_description = 'Вопрос-ответ ChatGPT-3.5 без использования API-ключа'
     commands_description = {
         'gpt [запрос]': 'Сделать запрос ChatGPT-3.5'

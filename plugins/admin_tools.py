@@ -7,7 +7,6 @@ from utils.utils import user_text
 
 class Help:
     author = 'Koban'
-    help_commands = ['ban', 'kick', 'mute', 'unmute']
     modules_description = 'Модуль для администратора (бан, кик, мут). ' \
                           'Время указывать необязательно, тогда будет бан навсегда. ' \
                           'Формат времени: 30 | 30s - секунд, 1m - 1 минута, 30h - 30 часов, 10d - 10 дней'

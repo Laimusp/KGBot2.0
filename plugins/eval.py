@@ -12,7 +12,6 @@ from utils.utils import user_text
 
 class Help:
     author = 'Koban'
-    help_commands = ['e']
     modules_description = 'Модуль, который выполняет код на языке программирования Python'
     commands_description = {
         'e': 'Выполнить код по реплаю',

@@ -4,8 +4,7 @@ from collections import defaultdict
 
 from pyrogram import filters, types
 from utils.client import KGBot
-from utils.utils import user_text
-
+from utils.utils import user_text, get_command_filters
 
 alias_info = defaultdict(list)
 
@@ -57,13 +56,3 @@ async def show_alias_handler(_, message: types.Message):
     else:
         await message.edit_text(user_text('Алиасов нет'))
 
-
-def get_command_filters(_filters):
-    while isinstance(_filters, filters.AndFilter):
-        if isinstance(_filters.base, filters.AndFilter):
-            _filters = _filters.base
-            continue
-
-        base_flt_name = _filters.base.__class__.__name__
-        other_flt_name = _filters.other.__class__.__name__
-        return _filters.base if 'CommandFilter' in base_flt_name else _filters.other if 'CommandFilter' in other_flt_name else None

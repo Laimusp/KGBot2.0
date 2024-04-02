@@ -6,7 +6,6 @@ from utils.utils import user_text
 
 class Help:
     author = 'Koban'
-    help_commands = ['env_add', 'env_del', 'env_get', 'env_list']
     modules_description = 'Модуль для работы с переменными окружения'
     commands_description = {
         'env_add': 'Добавить переменную в .env',

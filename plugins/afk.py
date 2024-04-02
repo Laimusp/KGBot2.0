@@ -7,7 +7,6 @@ from utils.utils import user_text
 
 class Help:
     author = 'Koban'
-    help_commands = ['afk']
     modules_description = 'AFK-режим'
     commands_description = {
         'afk': 'Включить AFK-режим',
