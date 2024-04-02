@@ -21,3 +21,5 @@ def get_command_filters(_filters):
         base_flt_name = _filters.base.__class__.__name__
         other_flt_name = _filters.other.__class__.__name__
         return _filters.base if 'CommandFilter' in base_flt_name else _filters.other if 'CommandFilter' in other_flt_name else None
+
+    return _filters
