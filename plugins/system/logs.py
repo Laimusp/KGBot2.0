@@ -2,6 +2,7 @@ import os
 
 from pyrogram import types, filters
 from utils.client import KGBot
+from utils.utils import user_text
 
 
 @KGBot.on_message(filters.me & filters.command('logs', KGBot.prefix))
@@ -17,3 +18,16 @@ async def get_logs_handler(_, message: types.Message):
     await message.delete()
 
     os.remove(f'logs/log{logs_level}.log')
+
+
+@KGBot.on_message(filters.me & filters.command('logs_type', KGBot.prefix))
+async def set_logs_type_handler(_, message: types.Message):
+    if len(message.command) == 1:
+        return await message.edit_text(user_text('Вы не указали тип лога: show или file'))
+
+    if (logs_type := message.command[1].lower()) not in ('show', 'file'):
+        return await message.edit_text(user_text('Вы указали неверный тип лога: show или file'))
+
+    KGBot.logs_type = logs_type
+
+    await message.edit_text(user_text('Новый тип лога успешно установлен'))

@@ -11,7 +11,6 @@ alias_info = defaultdict(list)
 
 class Help:
     author = 'Koban'
-    help_commands = ['alias', 'unalias', 'show_alias']
     modules_description = 'Модуль для создания алиасов (сокращения команд)'
     commands_description = {
         'alias [команда] [сокращение]': 'Создание алиаса',

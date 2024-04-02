@@ -7,7 +7,6 @@ from utils.client import KGBot
 
 class Help:
     author = 'Koban'
-    help_commands = ['loadmod', 'delmod', 'fdelmod', 'recovmod']
     modules_description = 'Модули'
     commands_description = {
         'loadmod': 'Загрузка модуля',

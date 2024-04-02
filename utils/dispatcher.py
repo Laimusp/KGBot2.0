@@ -71,6 +71,9 @@ class CustomDispatcher(Dispatcher):
                                             f'\nЧтобы узнать подробности, напишите <u>.logs 40</u></i></b>'
                                 }
 
+                                if self.client.logs_type == 'show':
+                                    message_info['text'] = f'Ошибка: {str(error)}'
+
                                 try:
                                     await self.client.edit_message_text(**message_info)
                                 except PeerIdInvalid:  # либо там -100, либо там просто -

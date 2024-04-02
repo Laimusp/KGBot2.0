@@ -50,9 +50,9 @@ async def get_modules_commands(module_name: str, app: KGBot) -> list:
             if _handler in app.dispatcher.groups[0]:
                 command_filter = get_command_filters(_handler.filters)
                 if command_filter:
-                    handlers_info.append(list(command_filter.commands)[0])
+                    handlers_info.extend(list(command_filter.commands))
 
-    return handlers_info or 'Неизвестно'
+    return handlers_info or 'Нет команд'
 
 
 async def get_modules_help(module_name: str, app: KGBot) -> dict:
