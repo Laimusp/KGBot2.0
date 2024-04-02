@@ -49,7 +49,15 @@ async def get_gemini_text_response(request: str):
 
     genai.configure(api_key=Env.get("GEMINI_API_KEY"))
     model = genai.GenerativeModel()
-    response = model.generate_content(request)
+    response = model.generate_content(
+        request,
+        safety_settings={
+            HarmCategory.HARM_CATEGORY_HARASSMENT: 4,
+            HarmCategory.HARM_CATEGORY_HATE_SPEECH: 4,
+            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: 4,
+            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: 4
+        }
+    )
 
     del os.environ["http_proxy"]
     del os.environ["https_proxy"]

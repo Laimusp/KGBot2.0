@@ -7,6 +7,7 @@ import traceback
 from pyrogram import types, filters
 from meval import meval
 from utils.client import KGBot
+from utils.utils import user_text
 
 
 class Help:
@@ -33,7 +34,7 @@ class NewCustomInput:
         self.message = message
 
     async def __call__(self, message_text: str = '', *args, **kwargs):
-        new_message = await self.message.reply_text(f'<b><i>Программа ожидает ввода...</i></b>\n\n{message_text}'.strip())
+        new_message = await self.message.reply_text(user_text(f'Программа ожидает ввода...\n\n{message_text}').strip())
         while True:
             message_id = [item async for item in self.client.get_chat_history(self.message.chat.id, limit=1)][0].id
             message = await self.client.get_messages(self.message.chat.id, message_id)
