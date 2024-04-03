@@ -54,6 +54,7 @@ async def help_handler(app: KGBot, message: types.Message):
             commands = ' | '.join(help_info) if isinstance(help_info, list) else 'Неизвестно'
             help_text += f'➤ {module_name}: <code>⦑ {commands} ⦒</code>\n'
         help_text += f'\nВсего модулей: <b>{len(modules_list)}</b>'
+        help_text += f'\nЧтобы посмотреть системные модули: <b>.help system:</b>\n'
 
         await message.edit_text(help_text)
 

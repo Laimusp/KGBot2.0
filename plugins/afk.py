@@ -1,8 +1,11 @@
 from datetime import datetime
 
 from pyrogram import types, filters
+
+from utils import Database
 from utils.client import KGBot
 from utils.utils import user_text
+from utils.decorators import database_decorator
 
 
 class Help:
@@ -25,12 +28,16 @@ now_afk_filters = filters.create(lambda _, __, ___: afk_info['now_afk'])
 
 
 @KGBot.on_message(filters.me & filters.command("afk", KGBot.prefix))
-async def start_afk_handler(_, message: types.Message):
+@database_decorator
+async def start_afk_handler(_, message: types.Message, db: Database):
     if afk_info['now_afk']:
         return await message.edit_text(user_text('Вы уже AFK'))
 
     if len(message_info := message.text.split(maxsplit=1)) > 1:
         afk_info['afk_text'] = message_info[1]
+        db.set('afk_text', message_info[1])
+    elif 'afk_text' in db.keys():
+        afk_info['afk_text'] = db['afk_text']
 
     afk_info['now_afk'] = True
     afk_info['start_afk_time'] = datetime.now()
