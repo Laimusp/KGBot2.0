@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from pyrogram import types, filters
 
@@ -23,6 +23,9 @@ afk_info = {
     'afk_text': 'На данный момент AFK',
     'start_afk_time': datetime.now(),
 }
+
+afk_stats = {}
+# {user_id: last_answer_time}
 
 now_afk_filters = filters.create(lambda _, __, ___: afk_info['now_afk'])
 
@@ -57,7 +60,10 @@ async def stop_afk_handler(_, message: types.Message):
 
 @KGBot.on_message(~filters.me & filters.private & now_afk_filters)
 async def afk_handler(_, message: types.Message):
-    await message.reply(get_afk_message())
+    last_message_time = afk_stats.get(message.from_user.id, datetime(1900, 1, 1))
+    if datetime.now() - last_message_time > timedelta(minutes=10):
+        await message.reply(get_afk_message())
+        afk_stats[message.from_user.id] = datetime.now()
 
 
 def get_afk_message():

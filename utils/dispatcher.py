@@ -70,7 +70,6 @@ class CustomDispatcher(Dispatcher):
                                     'text': f'<b><i>В модуле <u>{mod_name.split(".")[1]}</u> произошла ошибка!'
                                             f'\nЧтобы узнать подробности, напишите <u>.logs 40</u></i></b>'
                                 }
-
                                 if self.client.logs_type == 'show':
                                     message_info['text'] = f'Ошибка: {str(error)}'
 
