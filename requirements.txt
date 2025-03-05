@@ -1,0 +1,6 @@
+pyrogram
+python-dotenv
+aiofiles
+tgcrypto
+Pillow
+meval
