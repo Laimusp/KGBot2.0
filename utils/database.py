@@ -6,7 +6,6 @@ import aiofiles
 import aiofiles.os
 import asyncio
 
-
 class Database(dict):
     def __init__(self, location: str, main_key: str = "__main__"):
         super().__init__()
@@ -21,15 +20,15 @@ class Database(dict):
                 data = json.loads(content)
                 self.update(data)
         except FileNotFoundError:
-            self.update({})
+            self.clear()
 
     async def save(self):
         dir_path = os.path.dirname(self.location)
         if dir_path and not await aiofiles.os.path.exists(dir_path):
             await aiofiles.os.makedirs(dir_path, exist_ok=True)
         
-        async with aiofiles.open(self.location, 'w+', encoding='utf-8') as f:
-            content = json.dumps(self, ensure_ascii=False, indent=4)
+        async with aiofiles.open(self.location, 'w', encoding='utf-8') as f:
+            content = json.dumps(dict(self), ensure_ascii=False, indent=4)
             await f.write(content)
         return True
 
@@ -41,10 +40,13 @@ class Database(dict):
         self.database_calling += 1
         if self.database_calling % 15 == 0:
             await self.make_backup()
-        return self.get(self.main_key, {}).get(key, default)
+
+        main_dict = super().get(self.main_key, {})
+        return main_dict.get(key, default)
 
     async def pop(self, key):
-        popped = self.get(self.main_key, {}).pop(key, None)
+        main_dict = self.setdefault(self.main_key, {})
+        popped = main_dict.pop(key, None)
         await self.save()
         return popped
 
@@ -57,10 +59,8 @@ class Database(dict):
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         backup_filename = f"{self.location}.{timestamp}.bak"
 
-        async with aiofiles.open(self.location, 'r', encoding='utf-8') as f:
-            content = await f.read()
-            data = json.loads(content)
-
+        data = dict(self)
+        
         async with aiofiles.open(backup_filename, 'w', encoding='utf-8') as f:
             await f.write(json.dumps(data, indent=4, ensure_ascii=False))
 

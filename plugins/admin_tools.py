@@ -24,7 +24,7 @@ class Help:
     }
 
 
-@KGBot.on_message(filters.me & filters.command('ban', KGBot.prefix))
+@KGBot.on_message(filters.me & filters.command('ban'))
 async def ban_user_handler(app: KGBot, message: types.Message):
     timer = 0
     if len(message.command) == 3:  # бан со временем по айди

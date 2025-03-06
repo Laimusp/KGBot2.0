@@ -22,9 +22,9 @@ async def env_add_handler(_, message: types.Message):
 
     _, key, value = message.command
 
-    Env.set(key.UPPER(), value)
+    await Env.set(key.upper(), value)
 
-    await message.edit_text(f"Значение {key} успешно добавлено в .env")
+    await message.edit_text(f"Значение <b>{key}</b> успешно добавлено в .env")
 
 
 @KGBot.on_message(filters.me & filters.command("env_del"))
@@ -34,9 +34,9 @@ async def env_del_handler(_, message: types.Message):
 
     _, key = message.command
 
-    Env.delete(key.UPPER())
+    await Env.delete(key.upper())
 
-    await message.edit_text(user_text("Значение {key} успешно удалено из .env"))
+    await message.edit_text(user_text(f"Значение <b>{key}</b> успешно удалено из .env"))
 
 
 @KGBot.on_message(filters.me & filters.command("env_get"))
@@ -46,16 +46,16 @@ async def env_get_handler(_, message: types.Message):
 
     _, key = message.command
 
-    value = Env.get(key.UPPER())
+    value = await Env.get(key.upper())
     if value is None:
-        return await message.edit_text(user_text(f"Значение {key} не найдено в .env"))
+        return await message.edit_text(user_text(f"Значение <b>{key}</b> не найдено в .env"))
 
     await message.edit_text(f"<b>{key}</b> = <code>{value}</code>")
 
 
 @KGBot.on_message(filters.me & filters.command("env_list"))
 async def env_list_handler(_, message: types.Message):
-    env_info = Env.get_list()
+    env_info = await Env.get_list()
     if not env_info:
         return await message.edit_text(user_text("Нет переменных в .env"))
 

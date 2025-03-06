@@ -7,6 +7,7 @@ from meval import meval
 from core import types, filters
 from core.client import KGBot
 from utils.utils import user_text
+from pyrogram.errors.exceptions.bad_request_400 import MessageNotModified
 
 
 class Help:
@@ -91,7 +92,10 @@ async def eval_handler(app: KGBot, message: types.Message):
     if error_output:  # если была ошибка
         result_output += error_model.format(escape(error_output))
 
-    await message.edit_text(result_output)
+    try:
+        await message.edit_text(result_output)
+    except MessageNotModified:
+        ...
 
 
 def get_code(text: str) -> str:

@@ -21,7 +21,7 @@ async def change_prefix_handler(app: KGBot, message: types.Message):
         return await message.edit_text(user_text('Префикс не должен содержать пробелов'))
 
     _, KGBot.prefix = message_text_split
-    Env.set('prefix', KGBot.prefix)
+    await Env.set('prefix', KGBot.prefix)
 
     await app.modules_restart()
     await message.edit_text(user_text(f'Вы можете использовать новый префикс <u>{KGBot.prefix}</u>'))

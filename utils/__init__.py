@@ -1,4 +1,4 @@
 from utils.database import Database
 
 
-db = Database('database/database.json')
+database = Database('database/database.json')

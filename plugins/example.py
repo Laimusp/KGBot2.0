@@ -16,7 +16,7 @@ class Help:  # класс для help'а, имеет 4 поля
     # позже будет добавлена работа с базой данных
 
 
-@KGBot.on_message(filters.me & filters.command(["ex"]))  # указываем фильтры и префикс
+@KGBot.on_message(filters.me & filters.command(["ex"]))  # указываем фильтры
 async def example_handler(app: KGBot, message: types.Message):
     # Здесь основная логика кода
     # в данном случае я заменил бы app на _, так как он не используется, но для примера пусть будет так
